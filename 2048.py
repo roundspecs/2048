@@ -116,8 +116,6 @@ def on_press(key):
         move_up()
     elif key == keyboard.Key.down:
         move_down()
-    elif key == keyboard.Key.esc:
-        exit()
     return False
 
 
@@ -132,7 +130,7 @@ insert_num(2)
 
 while True:
     system('cls')
-    print("Press esc to exit.")
+    print("Ctrl+C to exit.")
     prev_board = deepcopy(board)
     show_board()
     user_input()
