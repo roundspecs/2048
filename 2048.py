@@ -39,9 +39,49 @@ def insert_num(num):
     board[empty_sqr[0]][empty_sqr[1]] = num
 
 
-############################################################################
-################## make a function that returns the score ##################
-############################################################################
+def score():
+    sum = 0
+    for i in range(0, 4):
+        for j in range(0, 4):
+            if board[i][j] != ' ':
+                sum += board[i][j]
+    return sum
+
+
+def board_filled():
+    for i in range(0, 4):
+        for j in range(0, 4):
+            if board[i][j] == ' ':
+                return False
+    return True
+
+
+def hor_consec_check():
+    for row in board:
+        if (row[0] == row[1] or
+            row[1] == row[2] or
+                row[2] == row[3]):
+            return True
+    return False
+
+
+def ver_consec_check():
+    for j in range(0, 4):
+        if (board[0][j] == board[1][j] or
+            board[1][j] == board[2][j] or
+                board[2][j] == board[3][j]):
+            return True
+    return False
+
+
+def game_over():
+    if board_filled():
+        if (hor_consec_check() or
+                ver_consec_check()):
+            return False
+        return True
+    else:
+        return False
 
 
 # this function changes the board if user presses left key
@@ -82,7 +122,7 @@ def move_right():
 
 # this function changes the board if user presses up key
 def move_up():
-    for j in range(0,4):
+    for j in range(0, 4):
         i = 1
         while(i < 4):
             if board[i][j] == ' ':
@@ -100,7 +140,7 @@ def move_up():
 
 # this function changes the board if user presses down key
 def move_down():
-    for j in range(0,4):
+    for j in range(0, 4):
         i = 2
         while(i >= 0):
             if board[i][j] == ' ':
@@ -134,16 +174,19 @@ def user_input():
     with keyboard.Listener(on_press) as listener:
         listener.join()
 
+
 # insert two new 2's in a random empty square
 insert_num(2)
 insert_num(2)
 
 
-while True:
+while not game_over():
     # clear the screen
     system('cls')
     # exit message
     print("Ctrl+C to exit.")
+    # print score
+    print(score())
     # a copy or the board before user input.. it will be used later to check if the board is changed
     prev_board = deepcopy(board)
     # show the board
@@ -153,3 +196,7 @@ while True:
     # if the board has changed, then insert a new 2 in a random empty square
     if(prev_board != board):
         insert_num(2)
+# clear the screen
+system('cls')
+# print score
+print('Score:', score())
