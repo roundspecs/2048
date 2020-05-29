@@ -1,6 +1,7 @@
 import random
 from pynput import keyboard
 from os import system
+from copy import deepcopy
 
 board = [
     [' ', ' ', ' ', ' '],
@@ -72,11 +73,51 @@ def move_right():
             i -= 1
 
 
+def move_up():
+    for j in range(0,4):
+        i = 1
+        while(i < 4):
+            if board[i][j] == ' ':
+                i += 1
+                continue
+            while(i > 0 and board[i-1][j] == ' '):
+                board[i-1][j], board[i][j] = board[i][j], ' '
+                i -= 1
+                continue
+            if (i > 0 and board[i-1][j] == board[i][j]):
+                board[i-1][j] *= 2
+                board[i][j] = ' '
+            i += 1
+
+
+def move_down():
+    for j in range(0,4):
+        i = 2
+        while(i >= 0):
+            if board[i][j] == ' ':
+                i -= 1
+                continue
+            while(i < 3 and board[i+1][j] == ' '):
+                board[i+1][j], board[i][j] = board[i][j], ' '
+                i += 1
+                continue
+            if (i < 3 and board[i+1][j] == board[i][j]):
+                board[i+1][j] *= 2
+                board[i][j] = ' '
+            i -= 1
+
+
 def on_press(key):
     if key == keyboard.Key.left:
         move_left()
     elif key == keyboard.Key.right:
         move_right()
+    elif key == keyboard.Key.up:
+        move_up()
+    elif key == keyboard.Key.down:
+        move_down()
+    elif key == keyboard.Key.esc:
+        exit()
     return False
 
 
@@ -91,6 +132,9 @@ insert_num(2)
 
 while True:
     system('cls')
+    print("Press esc to exit.")
+    prev_board = deepcopy(board)
     show_board()
     user_input()
-    insert_num(2)
+    if(prev_board != board):
+        insert_num(2)
