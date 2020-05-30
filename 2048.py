@@ -1,4 +1,4 @@
-import random
+from random import choice
 from pynput import keyboard
 from os import system
 from copy import deepcopy
@@ -34,9 +34,9 @@ def find_empty_sqrs():
     return result
 
 
-def insert_num(num):
-    empty_sqr = random.choice(find_empty_sqrs())
-    board[empty_sqr[0]][empty_sqr[1]] = num
+def insert_num():
+    empty_sqr = choice(find_empty_sqrs())
+    board[empty_sqr[0]][empty_sqr[1]] = choice([2,2,2,2,4])
 
 
 def score():
@@ -58,26 +58,26 @@ def board_filled():
 
 def hor_consec_check():
     for row in board:
-        if (row[0] == row[1] or
-            row[1] == row[2] or
-                row[2] == row[3]):
+        if (row[0] == row[1] or \
+            row[1] == row[2] or \
+            row[2] == row[3]):
             return True
     return False
 
 
 def ver_consec_check():
     for j in range(0, 4):
-        if (board[0][j] == board[1][j] or
-            board[1][j] == board[2][j] or
-                board[2][j] == board[3][j]):
+        if (board[0][j] == board[1][j] or \
+            board[1][j] == board[2][j] or \
+            board[2][j] == board[3][j]):
             return True
     return False
 
 
 def game_over():
     if board_filled():
-        if (hor_consec_check() or
-                ver_consec_check()):
+        if (hor_consec_check() or \
+            ver_consec_check()):
             return False
         return True
     else:
@@ -176,8 +176,8 @@ def user_input():
 
 
 # insert two new 2's in a random empty square
-insert_num(2)
-insert_num(2)
+insert_num()
+insert_num()
 
 
 while not game_over():
@@ -195,7 +195,7 @@ while not game_over():
     user_input()
     # if the board has changed, then insert a new 2 in a random empty square
     if(prev_board != board):
-        insert_num(2)
+        insert_num()
 # clear the screen
 system('cls')
 # print score
