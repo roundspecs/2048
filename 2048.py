@@ -186,7 +186,7 @@ while not game_over():
     # exit message
     print("Ctrl+C to exit.")
     # print score
-    print(score())
+    print('SCore:', score())
     # a copy or the board before user input.. it will be used later to check if the board is changed
     prev_board = deepcopy(board)
     # show the board
